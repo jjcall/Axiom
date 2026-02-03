@@ -43,6 +43,7 @@ export default withMermaid(defineConfig({
           items: [
             { text: 'Overview', link: '/guide/' },
             { text: 'Quick Start', link: '/guide/quick-start' },
+            { text: 'MCP Server (Experimental)', link: '/guide/mcp-install' },
             { text: 'Example Workflows', link: '/guide/workflows' }
           ]
         }
@@ -275,7 +276,7 @@ export default withMermaid(defineConfig({
 
     footer: {
       message: 'Released under the MIT License',
-      copyright: 'Copyright © 2026 Charles Wiltgen • v2.19.5'
+      copyright: 'Copyright © 2026 Charles Wiltgen • v2.19.6'
     }
   }
 }))
