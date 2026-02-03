@@ -1,10 +1,11 @@
 # Axiom
 
-Battle-tested Claude Code skills, commands, and references for modern xOS (iOS, iPadOS, tvOS, watchOS) development — Swift 6, SwiftUI, Liquid Glass, Apple Intelligence, and more.
+Battle-tested Claude Code skills, commands, and references for modern Apple platform development (iOS, iPadOS, macOS, tvOS, watchOS) — Swift 6, SwiftUI, Liquid Glass, Apple Intelligence, and more.
 
 ## What's New Recently
 
 #### Latest
+- **macOS Development Skills** — 8 new skills covering window management, document apps, keyboard shortcuts, file handling, extensions, AppKit bridging, and distribution
 - **Apple Documentation Access** — Direct access to 20 official Apple guides + 32 Swift compiler diagnostics bundled in Xcode, read at runtime via MCP server
 
 #### WWDC 2025 Updates
@@ -60,6 +61,8 @@ Skills are **automatically suggested by Claude Code** based on your questions an
 - "My app has memory leaks" → activates `axiom-memory-debugging`
 - "My app drains battery quickly" → activates `axiom-energy`
 - "Help me migrate from Realm to SwiftData" → activates `realm-to-swiftdata-migration`
+- "How do I create a menu bar Mac app?" → activates `axiom-macos-windows`
+- "How do I notarize my Mac app?" → activates `axiom-macos-distribution`
 
 ## Skills Overview
 
@@ -312,6 +315,57 @@ Comprehensive migration guide for Realm users facing Device Sync sunset (Sept 30
 **Urgency**: Realm Device Sync sunset September 30, 2025 - this skill is essential for affected developers
 
 **Timeline**: 2-8 weeks depending on app complexity
+
+---
+
+### macOS Development
+
+#### `axiom-macos-windows`
+SwiftUI scenes and window management: WindowGroup, Window, MenuBarExtra, Settings. Covers window sizing, positioning, styling, and multi-window apps.
+
+**When to use** Creating Mac apps, menu bar apps, Settings windows, controlling window lifecycle, customizing toolbars
+
+---
+
+#### `axiom-macos-document-apps`
+Document-based apps with DocumentGroup, FileDocument, and ReferenceFileDocument. Covers autosave, undo/redo, and custom file type declarations.
+
+**When to use** Building text editors, image editors, or any app that creates and edits files
+
+---
+
+#### `axiom-macos-keyboard-menus`
+Keyboard shortcuts and menu commands: CommandMenu, CommandGroup, context menus, and standard macOS shortcut conventions.
+
+**When to use** Adding keyboard shortcuts, customizing the menu bar, implementing context menus
+
+---
+
+#### `axiom-macos-file-handling`
+File access in sandboxed apps: security-scoped URLs, bookmarks for persistent access, entitlements, open/save panels, drag-and-drop.
+
+**When to use** Accessing files outside the sandbox, persisting user-granted file access, implementing file dialogs
+
+---
+
+#### `axiom-macos-extensions`
+macOS app extensions: Finder Sync, Safari extensions, Share extensions, Quick Look, Spotlight importers, Services menu.
+
+**When to use** Building Finder badges, Safari extensions, custom file previews, Spotlight indexing
+
+---
+
+#### `axiom-macos-appkit-bridging`
+AppKit and SwiftUI integration: NSViewRepresentable, NSHostingView, NSWindow access, NSToolbar, NSTouchBar.
+
+**When to use** Wrapping AppKit views, accessing NSWindow, customizing toolbars beyond SwiftUI's API
+
+---
+
+#### `axiom-macos-distribution`
+App distribution: notarization, Developer ID signing, Mac App Store vs direct distribution, Hardened Runtime, Sparkle auto-updates.
+
+**When to use** Preparing for distribution, notarization, choosing distribution method, troubleshooting Gatekeeper
 
 ---
 
