@@ -1,6 +1,6 @@
 # Autonomous Agents
 
-Axiom includes 18 autonomous agents that automatically detect and diagnose common iOS development issues.
+Axiom includes 30+ autonomous agents that automatically detect and diagnose common iOS and macOS development issues.
 
 ## What Are Agents?
 
@@ -27,6 +27,9 @@ Agents are autonomous problem-solvers that:
 - "My builds are slow" → **build-optimizer** triggers
 - "Check my navigation architecture" → **swiftui-nav-auditor** triggers
 - "Take a screenshot to verify this fix" → **simulator-tester** triggers
+- "Check if my Mac app is ready for notarization" → **sandbox-distribution-auditor** triggers
+- "Why does ⌘N create duplicate windows?" → **macos-window-auditor** triggers
+- "My NSViewRepresentable doesn't update" → **appkit-bridge-auditor** triggers
 
 **Explicit commands** — For direct invocation:
 
@@ -45,6 +48,11 @@ Agents are autonomous problem-solvers that:
 /axiom:fix-build
 /axiom:optimize-build
 /axiom:test-simulator
+
+# macOS-specific agents
+/axiom:audit sandbox        # or /axiom:audit distribution
+/axiom:audit macos-windows
+/axiom:audit appkit-bridge
 ```
 
 ## Agent Categories
@@ -77,7 +85,12 @@ Agents are autonomous problem-solvers that:
 - **iap-implementation** — Implements complete StoreKit 2 IAP solution with testing-first workflow (.storekit configuration, centralized StoreManager, transaction handling, subscription management, restore purchases)
 
 ### Testing
-**simulator-tester** — Automated simulator testing with visual verification (screenshots, video, location simulation, push notifications, permissions, deep links, log analysis) for closed-loop debugging
+- **simulator-tester** — Automated simulator testing with visual verification (screenshots, video, location simulation, push notifications, permissions, deep links, log analysis) for closed-loop debugging
+
+### macOS Development
+- **sandbox-distribution-auditor** — Audits macOS apps for sandbox entitlements, notarization readiness, code signing issues, Hardened Runtime, and App Store vs Developer ID distribution blockers
+- **macos-window-auditor** — Scans SwiftUI macOS window architecture for scene selection mistakes (WindowGroup vs Window), MenuBarExtra state issues, keyboard shortcut conflicts, and openWindow/dismissWindow problems
+- **appkit-bridge-auditor** — Detects AppKit/SwiftUI integration issues including NSViewRepresentable lifecycle bugs, Coordinator memory leaks, delegate connection failures, responder chain breaks, and NSWindow access timing problems
 
 ## Why Agents?
 

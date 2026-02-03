@@ -1,7 +1,7 @@
 {
   "name": "axiom",
   "version": "2.19.6",
-  "description": "Battle-tested Claude Code skills for modern xOS (iOS, iPadOS, watchOS, tvOS) development",
+  "description": "Battle-tested Claude Code skills for modern xOS (iOS, iPadOS, macOS, watchOS, tvOS) development",
   "author": "Charles Wiltgen",
   "license": "MIT",
   "commands": [
@@ -19,15 +19,19 @@
   "skills": [
     {
       "name": "axiom-ios-build",
-      "description": "Use when ANY iOS build fails, test crashes, Xcode misbehaves, or environment issue occurs before debugging code. Covers build failures, compilation errors, dependency conflicts, simulator problems, environment-first diagnostics."
+      "description": "Use when ANY iOS/macOS build fails, test crashes, Xcode misbehaves, or environment issue occurs before debugging code. Covers build failures, compilation errors, dependency conflicts, simulator problems, sandboxing, notarization, environment-first diagnostics."
     },
     {
       "name": "axiom-ios-testing",
-      "description": "Use when writing ANY test, debugging flaky tests, making tests faster, or asking about Swift Testing vs XCTest. Covers unit tests, UI tests, fast tests without simulator, async testing, test architecture."
+      "description": "Use when writing ANY test, debugging flaky tests, making tests faster, or asking about Swift Testing vs XCTest. Covers unit tests, UI tests, fast tests without simulator, async testing, test architecture for iOS and macOS."
     },
     {
       "name": "axiom-ios-ui",
-      "description": "Use when building, fixing, or improving ANY iOS UI including SwiftUI, UIKit, layout, navigation, animations, design guidelines. Covers view updates, layout bugs, navigation issues, performance, architecture, Apple design compliance."
+      "description": "Use when building, fixing, or improving ANY iOS/macOS UI including SwiftUI, UIKit, AppKit, layout, navigation, animations, design guidelines. Covers view updates, layout bugs, navigation issues, performance, architecture, Apple design compliance."
+    },
+    {
+      "name": "axiom-macos",
+      "description": "Use when building ANY macOS app including SwiftUI Mac apps, AppKit integration, menu bar apps, document-based apps, window management. Covers WindowGroup, MenuBarExtra, Settings scenes, sandboxing, notarization, keyboard shortcuts."
     },
     {
       "name": "axiom-ios-data",

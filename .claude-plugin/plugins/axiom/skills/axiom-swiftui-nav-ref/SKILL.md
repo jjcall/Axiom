@@ -1198,13 +1198,127 @@ NavigationPath(codableRepresentation)  // For decoding
 
 ---
 
+## macOS-Specific Navigation Patterns
+
+### 8.1 Source List Sidebar (macOS)
+
+On macOS, NavigationSplitView sidebars render as standard source lists:
+
+```swift
+NavigationSplitView {
+    List(selection: $selection) {
+        Section("Favorites") {
+            ForEach(favorites) { item in
+                Label(item.name, systemImage: item.icon)
+                    .tag(item.id)
+            }
+        }
+        Section("Collections") {
+            ForEach(collections) { collection in
+                Label(collection.name, systemImage: "folder")
+                    .tag(collection.id)
+            }
+        }
+    }
+    .listStyle(.sidebar)  // Automatic on macOS
+    .navigationSplitViewColumnWidth(min: 180, ideal: 220)
+} detail: {
+    DetailView(selection: selection)
+}
+```
+
+### 8.2 Toolbar Integration (macOS)
+
+SwiftUI toolbars integrate with macOS window chrome:
+
+```swift
+NavigationSplitView {
+    Sidebar()
+} detail: {
+    DetailView()
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button("Add", systemImage: "plus") { add() }
+            }
+            ToolbarItem(placement: .navigation) {
+                Button("Back", systemImage: "chevron.left") { back() }
+            }
+        }
+        .navigationTitle("Detail")
+}
+.toolbar {
+    // Toolbar items at window level
+    ToolbarItem(placement: .automatic) {
+        Button("Settings", systemImage: "gear") { showSettings() }
+    }
+}
+.toolbarRole(.editor)  // Editor-style toolbar (macOS 13+)
+```
+
+**Toolbar placements on macOS:**
+- `.navigation` — Leading area (back buttons)
+- `.primaryAction` — Trailing area (main actions)
+- `.secondaryAction` — Overflow menu
+- `.automatic` — System decides
+
+### 8.3 Inspector Panel Pattern
+
+```swift
+struct ContentView: View {
+    @State private var showInspector = false
+
+    var body: some View {
+        NavigationSplitView {
+            Sidebar()
+        } detail: {
+            MainContent()
+                .inspector(isPresented: $showInspector) {
+                    InspectorView()
+                        .inspectorColumnWidth(min: 200, ideal: 300, max: 400)
+                }
+        }
+        .toolbar {
+            ToolbarItem {
+                Button("Inspector", systemImage: "sidebar.right") {
+                    showInspector.toggle()
+                }
+            }
+        }
+    }
+}
+```
+
+### 8.4 Window-Specific Navigation
+
+```swift
+// Preserve navigation per window
+struct DocumentView: View {
+    @SceneStorage("navigation") private var navigationData: Data?
+    @State private var path = NavigationPath()
+
+    var body: some View {
+        NavigationStack(path: $path) {
+            ContentList()
+        }
+        .task {
+            restoreNavigation()
+        }
+        .onChange(of: path) { _, newPath in
+            saveNavigation(newPath)
+        }
+    }
+}
+```
+
+---
+
 ## Resources
 
 **WWDC**: 2022-10054, 2024-10147, 2025-256, 2025-323 (Build a SwiftUI app with the new design)
 
 **Docs**: /swiftui/tabrole/search, /swiftui/view/tabbarminimizebehavior(_:), /swiftui/view/tabviewbottomaccessory(isenabled:content:)
 
-**Skills**: axiom-swiftui-nav, axiom-swiftui-nav-diag, axiom-swiftui-26-ref, axiom-liquid-glass, axiom-swiftui-search-ref
+**Skills**: axiom-swiftui-nav, axiom-swiftui-nav-diag, axiom-swiftui-26-ref, axiom-liquid-glass, axiom-swiftui-search-ref, axiom-macos-windows
 
 ---
 

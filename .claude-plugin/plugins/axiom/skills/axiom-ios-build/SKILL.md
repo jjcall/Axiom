@@ -1,10 +1,10 @@
 ---
 name: axiom-ios-build
-description: Use when ANY iOS build fails, test crashes, Xcode misbehaves, or environment issue occurs before debugging code. Covers build failures, compilation errors, dependency conflicts, simulator problems, environment-first diagnostics.
-license: MIT
+description: Use when ANY iOS/macOS build fails, test crashes, Xcode misbehaves, or environment issue occurs before debugging code. Covers build failures, compilation errors, dependency conflicts, simulator problems, sandboxing, notarization, environment-first diagnostics.
+user-invocable: false
 ---
 
-# iOS Build & Environment Router
+# iOS/macOS Build & Environment Router
 
 **You MUST use this skill for ANY build, environment, or Xcode-related issue before debugging application code.**
 
@@ -18,6 +18,8 @@ Use this router when you encounter:
 - Dependency conflicts (CocoaPods, SPM)
 - Build performance issues (slow compilation)
 - Environment issues before debugging code
+- macOS sandboxing and entitlement issues
+- macOS notarization and code signing
 
 ## Routing Logic
 
@@ -307,3 +309,58 @@ User: "Xcode Organizer shows hang diagnostics for my app"
 
 User: "My app was killed by watchdog during launch"
 → Invoke: `/skill axiom-hang-diagnostics`
+
+---
+
+### 12. macOS Sandboxing Issues → **macos-file-handling**
+**Triggers**:
+- "Operation not permitted" errors
+- File access denied in sandboxed app
+- Security-scoped bookmark issues
+- Entitlement configuration problems
+- App can't access user-selected files
+
+**Why macos-file-handling**: Specialized skill for sandbox entitlements, security-scoped URLs, and bookmark persistence.
+
+**Invoke**: `/skill axiom-macos-file-handling`
+
+---
+
+### 13. macOS Distribution & Notarization → **macos-distribution**
+**Triggers**:
+- Notarization failures
+- "App is damaged" Gatekeeper errors
+- Code signing issues
+- Developer ID certificate problems
+- Hardened Runtime configuration
+- "App can't be opened because Apple cannot check it for malicious software"
+
+**Why macos-distribution**: Complete workflow for notarization, code signing, and Mac app distribution.
+
+**Invoke**: `/skill axiom-macos-distribution`
+
+---
+
+## macOS-Specific Decision Tree
+
+12. Sandboxing / file access denied? → macos-file-handling
+13. Notarization / Gatekeeper / signing? → macos-distribution
+14. Entitlement configuration? → macos-file-handling
+15. Developer ID issues? → macos-distribution
+
+## macOS Build Example Invocations
+
+User: "My Mac app says 'Operation not permitted' when accessing files"
+→ Invoke: `/skill axiom-macos-file-handling`
+
+User: "Notarization failed for my Mac app"
+→ Invoke: `/skill axiom-macos-distribution`
+
+User: "Gatekeeper blocks my app with 'App is damaged'"
+→ Invoke: `/skill axiom-macos-distribution`
+
+User: "How do I configure sandbox entitlements?"
+→ Invoke: `/skill axiom-macos-file-handling`
+
+User: "My app works in Xcode but not when distributed"
+→ Invoke: `/skill axiom-macos-distribution`

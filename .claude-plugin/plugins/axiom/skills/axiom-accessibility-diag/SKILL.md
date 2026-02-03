@@ -384,12 +384,66 @@ Button("Next") {
 }
 ```
 
+#### macOS-Specific Keyboard Navigation
+
+```swift
+// ✅ CORRECT - Focus ring visibility on macOS
+struct FocusableCard: View {
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        CardContent()
+            .focusable()
+            .focused($isFocused)
+            .focusEffectDisabled(false)  // Ensure focus ring shows
+            .border(isFocused ? Color.accentColor : Color.clear, width: 2)
+    }
+}
+
+// ✅ CORRECT - Arrow key navigation in custom list
+struct CustomList: View {
+    @State private var selection: Int = 0
+    let items: [Item]
+
+    var body: some View {
+        VStack {
+            ForEach(Array(items.enumerated()), id: \.offset) { index, item in
+                ItemRow(item: item, isSelected: selection == index)
+            }
+        }
+        .focusable()
+        .onKeyPress(.upArrow) {
+            selection = max(0, selection - 1)
+            return .handled
+        }
+        .onKeyPress(.downArrow) {
+            selection = min(items.count - 1, selection + 1)
+            return .handled
+        }
+        .onKeyPress(.return) {
+            activateItem(items[selection])
+            return .handled
+        }
+    }
+}
+```
+
+#### macOS Focus Ring Best Practices
+
+- **Default focus rings**: SwiftUI provides automatic focus rings; don't disable without good reason
+- **Custom focus indicators**: If customizing, ensure 3:1 contrast ratio against background
+- **Focus order**: Tab order should follow visual layout (left-to-right, top-to-bottom)
+- **Focus trapping**: Dialogs/sheets should trap focus within themselves
+
 #### Testing (iPadOS/macOS)
 1. Connect keyboard to iPad or use Mac
 2. Press Tab - does focus move to interactive elements?
 3. Press Space/Return - does focused element activate?
 4. Check custom controls have visible focus indicator
 5. Can you reach all functionality without mouse/touch?
+6. **macOS**: Test with Full Keyboard Access (System Settings → Accessibility → Keyboard)
+7. **macOS**: Test arrow key navigation in lists and grids
+8. **macOS**: Verify all menu items have keyboard shortcuts
 
 ---
 

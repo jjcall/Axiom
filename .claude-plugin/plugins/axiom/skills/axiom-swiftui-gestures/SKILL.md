@@ -606,6 +606,169 @@ var body: some View {
 
 ---
 
+## Pattern 8: macOS-Specific Input Patterns
+
+### Hover Effects
+
+```swift
+struct HoverableCard: View {
+    @State private var isHovered = false
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: 8)
+            .fill(isHovered ? Color.accentColor.opacity(0.1) : Color.clear)
+            .overlay(
+                Text("Hover over me")
+            )
+            .onHover { hovering in
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    isHovered = hovering
+                }
+            }
+    }
+}
+
+// Cursor change on hover
+Text("Link")
+    .onHover { hovering in
+        if hovering {
+            NSCursor.pointingHand.push()
+        } else {
+            NSCursor.pop()
+        }
+    }
+```
+
+### Trackpad Gestures
+
+```swift
+// Trackpad scroll with momentum
+ScrollView {
+    // SwiftUI handles trackpad scroll automatically
+    // with inertia and rubber-banding
+}
+
+// Pinch-to-zoom on trackpad
+Image("photo")
+    .gesture(
+        MagnificationGesture()
+            .onChanged { value in
+                // value.magnification from trackpad pinch
+                currentScale = baseScale * value.magnification
+            }
+            .onEnded { value in
+                baseScale *= value.magnification
+            }
+    )
+
+// Two-finger rotation on trackpad
+Image("photo")
+    .gesture(
+        RotationGesture()
+            .onChanged { value in
+                currentAngle = baseAngle + value.rotation
+            }
+            .onEnded { value in
+                baseAngle += value.rotation
+            }
+    )
+```
+
+### Force Touch / Pressure-Sensitive Input
+
+```swift
+// Note: Force Touch is less common in SwiftUI
+// For pressure sensitivity, use NSEvent in AppKit
+
+struct PressureSensitiveView: NSViewRepresentable {
+    @Binding var pressure: CGFloat
+
+    func makeNSView(context: Context) -> NSView {
+        let view = PressureTrackingView()
+        view.onPressure = { self.pressure = $0 }
+        return view
+    }
+
+    func updateNSView(_ nsView: NSView, context: Context) {}
+}
+
+class PressureTrackingView: NSView {
+    var onPressure: ((CGFloat) -> Void)?
+
+    override var acceptsFirstResponder: Bool { true }
+
+    override func pressureChange(with event: NSEvent) {
+        onPressure?(CGFloat(event.pressure))
+    }
+}
+```
+
+### Right-Click / Secondary Click
+
+```swift
+// Use contextMenu for right-click menus
+Text("Right-click me")
+    .contextMenu {
+        Button("Copy") { copy() }
+        Button("Delete", role: .destructive) { delete() }
+    }
+
+// Or detect secondary click manually
+struct SecondaryClickView: View {
+    var body: some View {
+        Text("Click me")
+            .onTapGesture {
+                // Primary click
+            }
+            .gesture(
+                TapGesture()
+                    .modifiers(.control)  // Control-click = right-click
+                    .onEnded { _ in
+                        showContextMenu()
+                    }
+            )
+    }
+}
+```
+
+### Scroll Wheel Events
+
+```swift
+// SwiftUI ScrollView handles scroll wheel automatically
+// For custom scroll handling:
+struct CustomScrollView: NSViewRepresentable {
+    @Binding var scrollOffset: CGFloat
+
+    func makeNSView(context: Context) -> NSScrollView {
+        let scrollView = NSScrollView()
+        // Configure scroll view
+        return scrollView
+    }
+
+    func updateNSView(_ scrollView: NSScrollView, context: Context) {}
+}
+```
+
+### Pointer vs Touch Decision Tree
+
+```
+Is this a direct manipulation task?
+├─ Yes (drawing, dragging objects)
+│  └─ Use same gestures, adjust sensitivity
+│     - macOS: minimumDistance: 1 (precise)
+│     - iOS: minimumDistance: 10 (finger-friendly)
+│
+├─ Is this a selection/action?
+│  ├─ Primary action → Button (works on both)
+│  ├─ Secondary action → contextMenu (right-click/long-press)
+│  └─ Hover preview → onHover (macOS only, graceful ignore on iOS)
+│
+└─ Is this navigation/scrolling?
+   └─ Use standard SwiftUI components (handle both automatically)
+```
+
+---
+
 ## Common Pitfalls
 
 ### Pitfall 1: Forgetting to Reset GestureState

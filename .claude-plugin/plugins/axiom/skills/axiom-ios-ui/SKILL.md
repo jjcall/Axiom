@@ -1,25 +1,27 @@
 ---
 name: axiom-ios-ui
-description: Use when building, fixing, or improving ANY iOS UI including SwiftUI, UIKit, layout, navigation, animations, design guidelines. Covers view updates, layout bugs, navigation issues, performance, architecture, Apple design compliance.
-license: MIT
+description: Use when building, fixing, or improving ANY iOS/macOS UI including SwiftUI, UIKit, AppKit, layout, navigation, animations, design guidelines. Covers view updates, layout bugs, navigation issues, performance, architecture, Apple design compliance.
+user-invocable: false
 ---
 
-# iOS UI Router
+# iOS/macOS UI Router
 
-**You MUST use this skill for ANY iOS UI work including SwiftUI, UIKit, layout, navigation, animations, and design.**
+**You MUST use this skill for ANY iOS or macOS UI work including SwiftUI, UIKit, AppKit, layout, navigation, animations, and design.**
 
 ## When to Use
 
 Use this router when working with:
 - SwiftUI views, state, bindings
 - UIKit views and constraints
+- AppKit views (macOS)
 - Layout issues (Auto Layout, SwiftUI layout)
-- Navigation (NavigationStack, deep linking)
+- Navigation (NavigationStack, NavigationSplitView, deep linking)
 - Animations and transitions
-- Liquid Glass design (iOS 26+)
+- Liquid Glass design (iOS 26+/macOS 26+)
 - Apple Human Interface Guidelines
 - UI architecture and patterns
 - Accessibility UI issues
+- macOS window management
 
 ## Conflict Resolution
 
@@ -65,6 +67,15 @@ Use this router when working with:
 
 **UI test flakiness** → `/skill axiom-ui-testing`
 
+### macOS-Specific
+
+**Window management** → `/skill axiom-macos-windows`
+**Document-based apps** → `/skill axiom-macos-document-apps`
+**Keyboard shortcuts & menus** → `/skill axiom-macos-keyboard-menus`
+**AppKit integration** → `/skill axiom-macos-appkit-bridging`
+
+For comprehensive macOS routing, use `/skill axiom-macos`
+
 ## Decision Tree
 
 1. SwiftUI view not updating? → swiftui-debugging
@@ -84,6 +95,10 @@ Use this router when working with:
 15. Typography? → typography-ref
 16. TextKit/rich text? → textkit-ref
 17. Accessibility? → accessibility-diag
+18. macOS windows/scenes? → macos-windows
+19. macOS document apps? → macos-document-apps
+20. macOS keyboard/menus? → macos-keyboard-menus
+21. AppKit bridging? → macos-appkit-bridging
 
 ## Anti-Rationalization
 

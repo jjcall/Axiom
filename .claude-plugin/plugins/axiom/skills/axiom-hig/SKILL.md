@@ -405,10 +405,39 @@ Every design decision should support these principles:
 - Arbitrary window sizing (iOS 26+)
 
 ### macOS
-- Menu bar for commands
-- Dense layouts acceptable
-- Pointer-first interactions
-- Window chrome and controls
+- Menu bar for commands (users expect ⌘ shortcuts)
+- Dense layouts acceptable (more information per screen)
+- Pointer-first interactions (hover states, right-click menus)
+- Window chrome and controls (close/minimize/zoom buttons)
+- Keyboard navigation required (Tab, arrow keys)
+- Multiple windows expected (don't assume single-window)
+- Resizable windows (provide sensible min/max sizes)
+
+### macOS-Specific Guidelines
+
+**Window Behavior:**
+- Support multiple windows via ⌘N when appropriate
+- Remember window size and position
+- Provide Settings (⌘,) for preferences
+- Support full-screen mode
+
+**Menus & Keyboard:**
+- Implement standard Edit menu commands (⌘C, ⌘V, ⌘Z)
+- Add app-specific keyboard shortcuts to menus
+- Never override system shortcuts (⌘Q, ⌘H, ⌘M)
+- Support keyboard navigation for all interactive elements
+
+**Pointer Interactions:**
+- Add hover effects for clickable elements
+- Implement right-click context menus
+- Support drag and drop where appropriate
+- Trackpad gestures (pinch, rotate, swipe)
+
+**Visual Design:**
+- Use vibrancy and materials for sidebars
+- Match system appearance (light/dark mode)
+- Toolbar icons should be template images
+- Dense layouts are acceptable—Mac users expect efficiency
 
 ### watchOS
 - Glanceable interfaces

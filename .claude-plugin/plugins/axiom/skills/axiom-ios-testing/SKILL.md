@@ -1,10 +1,10 @@
 ---
 name: axiom-ios-testing
-description: Use when writing ANY test, debugging flaky tests, making tests faster, or asking about Swift Testing vs XCTest. Covers unit tests, UI tests, fast tests without simulator, async testing, test architecture.
-license: MIT
+description: Use when writing ANY test, debugging flaky tests, making tests faster, or asking about Swift Testing vs XCTest. Covers unit tests, UI tests, fast tests without simulator, async testing, test architecture for iOS and macOS.
+user-invocable: false
 ---
 
-# iOS Testing Router
+# iOS/macOS Testing Router
 
 **You MUST use this skill for ANY testing-related question, including writing tests, debugging test failures, making tests faster, or choosing between testing approaches.**
 
@@ -20,6 +20,7 @@ Use this router when you encounter:
 - Migrating from XCTest to Swift Testing
 - Test architecture decisions
 - Condition-based waiting patterns
+- macOS-specific UI testing
 
 ## Routing Logic
 
@@ -267,3 +268,75 @@ User: "Can I automate my app without writing XCUITests?"
 
 User: "How do I tap a button using AXe?"
 → Invoke: axiom-axe-ref (via simulator-tester)
+
+---
+
+## macOS Testing Considerations
+
+### XCUITest on macOS
+
+macOS UI tests work similarly to iOS with key differences:
+
+**Element Targeting:**
+```swift
+// macOS uses different element types
+let app = XCUIApplication()
+app.launch()
+
+// Menu bar items
+app.menuBars.menuItems["File"].click()
+app.menuBars.menuItems["New"].click()
+
+// Windows
+let window = app.windows["Document"]
+XCTAssertTrue(window.exists)
+
+// Toolbar buttons
+window.toolbars.buttons["Add"].click()
+
+// Sidebar items (source lists)
+window.outlines.cells["Favorites"].click()
+```
+
+**Keyboard Input:**
+```swift
+// Type text
+app.typeText("Hello World")
+
+// Keyboard shortcuts
+app.typeKey("n", modifierFlags: .command)  // ⌘N
+app.typeKey("s", modifierFlags: [.command, .shift])  // ⇧⌘S
+
+// Tab navigation
+app.typeKey(.tab, modifierFlags: [])
+```
+
+**Mouse Actions:**
+```swift
+// Right-click
+element.rightClick()
+
+// Hover (for tooltip testing)
+element.hover()
+
+// Scroll
+element.scroll(byDeltaX: 0, deltaY: -100)
+```
+
+### macOS-Specific Test Scenarios
+
+1. **Multi-window tests**: Test window management
+2. **Menu tests**: Verify menu items and shortcuts
+3. **Keyboard navigation**: Test full keyboard access
+4. **Drag and drop**: Test file drops and internal drags
+5. **Permissions**: Test sandbox and entitlement behavior
+
+### Running macOS Tests
+
+```bash
+# Run macOS UI tests
+xcodebuild test \
+    -scheme MyApp \
+    -destination 'platform=macOS' \
+    -testPlan UITests
+```
